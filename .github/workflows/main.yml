@@ -1,19 +1,21 @@
 name: Deploy
 
+# Controls when the action will run. 
 on:
+  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches:
-      - main
+    branches: [ main ]
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Deploy using SSH
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:       
+    - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -21,23 +23,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          # Ensure the target directory exists
-          mkdir -p /production/github/clone
-
-          # Navigate to the target directory
-          cd /production/github/clone
-
-          # Check if the directory is a Git repository
-          if [ ! -d ".git" ]; then
-            git clone git@github.com:ceo-py/react-github-action.git .
-          else
-            git pull origin main
-          fi
-
-          # Check for package.json and run build process
-          if [ -f "package.json" ]; then
-            npm install --only=prod
-            npm run build
-          else
-            echo "package.json not found!"
-            exit 1
+          cd /production/github/clone/
+          git pull origin main
+          git status
+          npm install --only=prod
