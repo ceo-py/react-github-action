@@ -34,9 +34,6 @@ jobs:
             git pull origin main
           fi
 
-          # Navigate to the repository directory
-          cd /production/github/clone
-
           # Check for package.json and run build process
           if [ -f "package.json" ]; then
             npm install --only=prod
