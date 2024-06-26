@@ -26,6 +26,8 @@ jobs:
           cd /production/github/
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/github-actions
+          rm -r react-github-action/
           git clone git@github.com:ceo-py/react-github-action.git
           cd react-github-action/
-          npm install --only=prod
+          npm i
+          npm run build
