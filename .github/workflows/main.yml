@@ -24,6 +24,7 @@ jobs:
         port: 22
         script: |
           cd /production/github/clone/
-          git pull main
-          git status
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/github-actions
+          git clone git@github.com:ceo-py/react-github-action.git
           npm install --only=prod

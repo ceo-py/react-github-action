@@ -7,9 +7,9 @@ Go to the github Secrets and variables and create 3 new secrets.
             -2 ssh-keygen -t rsa -b 4096 -C 'test@test.com' - create ssh key with your email address, example name of the key "filename"
             -3 get the secret key you just generated test and save inside SSH_PRIVATE_KEY
 
-- 4. Got to github settings > SSH and GPG keys > New SSH key and add the public key yout just create from the step above from filename.pub.
+- 4. Got to github settings > SSH and GPG keys > New SSH key and add the public key your just create from the step above from filename.pub.
 - 5. cat filename.pub >> authorized_keys - Add the public ssh we just create inside the vps authorized_keys for github can connect to vps
-- 6. ~/.ssh# eval "$(ssh-agent -s)" then ssh-add ~/.ssh/filename
+- 6. eval "$(ssh-agent -s)" then ssh-add ~/.ssh/filename
 
 if access problem add
     - 7. chmod 700 ~/.ssh
