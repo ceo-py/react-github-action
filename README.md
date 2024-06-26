@@ -35,6 +35,16 @@ On your VPS, generate an SSH key pair and configure it to allow GitHub to authen
    chmod 600 ~/.ssh/filename
    ```
 
+6. Go to the path where your React/Next project will be located on your VPS.
+
+   ```bash
+   cd \production\react
+   eval "$(ssh-agent -s)"
+   ssh-add ~/.ssh/filename
+   git clone git@github.com:GITHUB_USERNAME/REPOSITORY_NAME.git
+   ```
+
+The directory `repository/name/` will be created automatically after the cloning process completes. Ensure that you use the exact same name as specified below.
 
 ### Step 2: Configure GitHub Secrets
 
@@ -82,17 +92,15 @@ Now, configure the GitHub Action to deploy your React application on each push:
                 key: ${{ secrets.SSH_PRIVATE_KEY }}
                 port: 22
                 script: |
-                cd /path/to/your/app
                 eval "$(ssh-agent -s)"
-                ssh-add ~/.ssh/github-actions
-                rm -r repository_name/
-                git clone git@github.com:USERNAME/repository_name.git
-                cd repository_name/
+                ssh-add ~/.ssh/filename
+                cd /production/react/repository/name/
+                git pull origin main
                 npm i
                 npm run build
    ```
 
-   Replace `/path/to/your/app` with the actual path to your React application on the VPS and `repository_name` with the name of your repository on GitHub.
+   Replace `repository/name/` with the actual name of your repository on GitHub.
 
 2. Commit and push the changes to your GitHub repository.
 
