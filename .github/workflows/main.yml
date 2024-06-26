@@ -21,11 +21,23 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          if [ ! -d "/production/github/clone/.git" ]; then
-            git clone git@github.com:ceo-py/react-github-action.git /production/github/clone
+          # Ensure the target directory exists
+          mkdir -p /production/github/clone
+
+          # Navigate to the target directory
+          cd /production/github/clone
+
+          # Check if the directory is a Git repository
+          if [ ! -d ".git" ]; then
+            git clone git@github.com:ceo-py/react-github-action.git .
+          else
+            git pull origin main
           fi
-          cd /production/github/clone/react-github-action
-          git pull origin main
+
+          # Navigate to the repository directory
+          cd /production/github/clone
+
+          # Check for package.json and run build process
           if [ -f "package.json" ]; then
             npm install --only=prod
             npm run build
